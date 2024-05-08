@@ -1,10 +1,13 @@
+import { useContext } from "react";
 import { assets } from "../../assets/assets.js";
 import { HashLink as Link } from "react-router-hash-link";
+import { StoreContext } from "../../context/StoreContext.jsx";
 
 const Navbar = () => {
+  const{getTotalCartAmount}=useContext(StoreContext)
   return (
     <div className="flex items-center justify-between pt-2 w-[80%] m-auto ">
-      <img src={assets.logo} alt="" className="max-w-[120px]" />
+      <Link to='/'><img src={assets.logo} alt="" className="max-w-[120px]" /></Link>
       <ul className="flex text-[#49557e] gap-3 hover:cursor-pointer hover:text-black text-[18px] font-custom">
         <Link
           to="/"
@@ -37,8 +40,8 @@ const Navbar = () => {
       <div className="flex justify-between w-[20%] items-center hover:cursor-pointer gap-5">
         <img src={assets.search_icon} alt="" className="max-h-[20px]" />
         <div className="relative">
-          <img src={assets.basket_icon} alt="" className="max-h-[25px]" />
-          <div className="bg-[#ff6347] rounded-[5px] h-[10px] w-[10px] z-[20] absolute right-[-7px] top-[-5px]"></div>
+          <Link to='/cart'><img src={assets.basket_icon} alt="" className="max-h-[25px]" /></Link>
+          <div className={getTotalCartAmount()===0?"":"bg-[#ff6347] rounded-[5px] h-[10px] w-[10px] z-[20] absolute right-[-7px] top-[-5px]" }></div>
         </div>
 
         <button className="text-[#49557e] hover:bg-[#fff4f2] border-2 rounded-xl p-[4px]  font-custom transition-[0.3s] w-[150px]">
