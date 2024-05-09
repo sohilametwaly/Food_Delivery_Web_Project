@@ -3,7 +3,7 @@ import { assets } from "../../assets/assets.js";
 import { HashLink as Link } from "react-router-hash-link";
 import { StoreContext } from "../../context/StoreContext.jsx";
 
-const Navbar = () => {
+const Navbar = ({setshowlogin}) => {
   const{getTotalCartAmount}=useContext(StoreContext)
   return (
     <div className="flex items-center justify-between pt-2 w-[80%] m-auto ">
@@ -44,7 +44,7 @@ const Navbar = () => {
           <div className={getTotalCartAmount()===0?"":"bg-[#ff6347] rounded-[5px] h-[10px] w-[10px] z-[20] absolute right-[-7px] top-[-5px]" }></div>
         </div>
 
-        <button className="text-[#49557e] hover:bg-[#fff4f2] border-2 rounded-xl p-[4px]  font-custom transition-[0.3s] w-[150px]">
+        <button onClick={() => setshowlogin(true)} className="text-[#49557e] hover:bg-[#fff4f2] border-2 rounded-xl p-[4px]  font-custom transition-[0.3s] w-[150px]">
           Sign In
         </button>
       </div>
