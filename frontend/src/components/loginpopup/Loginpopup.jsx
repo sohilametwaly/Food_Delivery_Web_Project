@@ -5,6 +5,17 @@ import { assets } from '../../assets/assets';
 import axios from "axios";
 const Loginpopup = ({ setshowlogin }) => {
   const [currstate, setcurrstate] = useState('Login');
+  const [data,setData]=useState({
+    name : "",
+    email :"",
+    password:""
+ })
+ const onChangeHandler = (event)=>{
+      const name = event.targrt.name;
+      const value = event.targrt.value;
+      setData(data=>({...data,[name]:value}))
+ }
+
 
   const validationSchema = Yup.object().shape({
     name: currstate === 'Sign Up' ? Yup.string().required('Required') : null,
