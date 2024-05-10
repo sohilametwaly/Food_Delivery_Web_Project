@@ -1,27 +1,69 @@
-import { useContext } from "react"
+import { useContext,  useState } from "react"
 import { StoreContext } from "../../context/StoreContext"
+import axios from "axios";
 
 const PlaceOrder = () => {
-    const { getTotalCartAmount } = useContext(StoreContext);
+    const { getTotalCartAmount ,token,food_list,cartItems,url} = useContext(StoreContext);
+    const [data,setData]=useState({
+        firstName: "",
+        lastName: "",
+        email:"",
+        street:"",
+        city :"",
+        state:"",
+        zipcode:"",
+        country:"",
+        phone:""
+    })
+    const onChangeHandler =(event) =>{
+        const name = event.target.name;
+        const value = event.target.value;
+        setData(data=>({...data,[name]:value}))
+    }
+    const placeOrder = async (event) =>{
+        event.preventDefault();
+        let orderItems = [];
+        food_list.map((item)=>{
+            if(cartItems[item._id]>0){
+                let itemInfo = item;
+                itemInfo["quantity"]= cartItems[item._id];
+                orderItems.push(itemInfo);
+            }
+        })
+        let orderData = {
+            address:data,
+            items:orderItems,
+            amount :getTotalCartAmount()+2,
+        }
+        let response = await axios.post(url+"/api/order/place",orderData,{headers:{token}});
+        if(response.data.success){
+            const{session_url}=response.data;
+            window.location.replace(session_url);
+        }
+        else{
+            alert("Error");
+        }
+    }
+    
     return (
-    <form className="place-order  mx-20 mt-40 flex items-start justify-between gap-50">
+    <form onSubmit={placeOrder} className="place-order  mx-20 mt-40 flex items-start justify-between gap-50">
         <div className="place-order-left w-full max-w-max30 md:max-w-500">
          <p className="title text-2xl font-semibold mb-10">Delivery Information</p>
          <div className="multi-fields">
-            <input type="text"placeholder="First Name"  className="mb-5  w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
-            <input type="text" placeholder="Last Name"   className="mb-5  mb-15 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
+            <input required  name='firstName' onChange={onChangeHandler} value ={data.firstName} type="text"placeholder="First Name"  className="mb-5  w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
+            <input required name='lastName' onChange={onChangeHandler} value ={data.lastName}type="text" placeholder="Last Name"   className="mb-5  mb-15 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
          </div>
-         <input type="text"placeholder="Email Address"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
-         <input type="text" placeholder="Street"   className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red"/>
+         <input required name='email' onChange={onChangeHandler} value ={data.email}type="text"placeholder="Email Address"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
+         <input required name='street' onChange={onChangeHandler} value ={data.street}type="text" placeholder="Street"   className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red"/>
          <div className="multi-fields">
-            <input type="text"placeholder="city"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
-            <input type="text" placeholder="State"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
+            <input required name='city' onChange={onChangeHandler} value ={data.city} type="text"placeholder="city"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
+            <input required name='state' onChange={onChangeHandler} value ={data.state} type="text" placeholder="State"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
          </div>
          <div className="multi-fields">
-            <input type="text"placeholder="Zip code"   className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red"/>
-            <input type="text" placeholder="Country"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
+            <input required name='zipcode' onChange={onChangeHandler} value ={data.zipcode} type="text"placeholder="Zip code"   className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red"/>
+            <input required name='country' onChange={onChangeHandler} value ={data.country} type="text" placeholder="Country"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red" />
          </div>
-         <input type="text"  placeholder="Phone"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red"/>
+         <input required name='phone' onChange={onChangeHandler} value ={data.phone} type="text"  placeholder="Phone"  className="mb-5 w-[600px] p-2 border-2 border-gray-300 rounded-md outline-red"/>
         </div>
         <div className="place-order-right w-full max-w-max40 md:max-w-500">
         
@@ -47,7 +89,7 @@ const PlaceOrder = () => {
                         <hr className="my-1" />
                     </div>
                     </div>
-                    <button className="total button bg-red-600 text-white px-6 py-3 rounded-md cursor-pointer ">PROCEED TO PAYMENT</button>
+                    <button type='submit' className="total button bg-red-600 text-white px-6 py-3 rounded-md cursor-pointer ">PROCEED TO PAYMENT</button>
                 </div>
 
         

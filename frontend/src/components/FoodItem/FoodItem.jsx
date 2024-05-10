@@ -6,12 +6,12 @@ import { StoreContext } from "../../context/StoreContext";
 const FoodItem = ({ id, name, price, description, img }) => {
 
    
-    const { addToCart,removeFromCart,cartItems } = useContext(StoreContext)
+    const { addToCart,removeFromCart,cartItems ,url} = useContext(StoreContext)
     
   return (
     <div className="rounded-[20px] shadow-xl flex flex-col gap-2 ">
       <div >
-        <img src={img} alt="" className="rounded-tl-[20px] rounded-tr-[20px] w-full h-[200px]"/>
+        <img src={url+"/images/"+img} alt="" className="rounded-tl-[20px] rounded-tr-[20px] w-full h-[200px]"/>
       </div>
           <div className="flex flex-col gap-1 p-4 relative">
           {

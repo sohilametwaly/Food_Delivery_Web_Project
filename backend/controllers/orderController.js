@@ -1,4 +1,29 @@
 import orderModel from "../models/ordersModel.js"
+import userModel from "../models/userModel.js"
+
+
+
+const PlaceOrder =async (req,res)=>{
+    const frontend_url = "http://localhost:5173"
+
+    try{
+       const newOrder =new orderModel({
+            userId:req.body.userId,
+            item:req.body.item,
+            amount:req.body.amount,
+            address:req.body.address
+        })
+        await newOrder.save();
+        await userModel.findByIdAndUpdate(req.body.userId,{cartData:{}});
+
+        
+    }
+    catch(error){
+         console.log(error);
+         res.json({success:false,message:"ERROR"})   
+   }
+
+}
 
 const listOrders = async (req, res, next) => {
 try {
@@ -18,7 +43,7 @@ const updateOrder = async (req, res, next) => {
 
     }
 }
- 
+
 //user orders for frontend
 const userOrders = async (req,res) => {
 try {
@@ -31,5 +56,5 @@ try {
 
 }
 }
-
-export {listOrders,updateOrder,userOrders}
+    
+export {PlaceOrder,listOrders,updateOrder,userOrders}
