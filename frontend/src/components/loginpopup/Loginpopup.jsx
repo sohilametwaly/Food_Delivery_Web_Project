@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { assets } from '../../assets/assets';
-
+import axios from "axios";
 const Loginpopup = ({ setshowlogin }) => {
   const [currstate, setcurrstate] = useState('Login');
 
@@ -20,9 +20,15 @@ const Loginpopup = ({ setshowlogin }) => {
     terms: false,
   };
 
-  const onSubmit = (values, { setSubmitting }) => {
+  const onSubmit =async (values, { setSubmitting }) => {
     console.log(values);
     setSubmitting(false);
+    const res=await axios.post ("http://localhost:3000/api/user/login",{email:values.email,password:values.password})
+    if (res.data.success) {
+      toast.success(res.data.message);
+} else { console.log(res);
+ toast.error(res.data.message);
+}
   };
 
   return (
