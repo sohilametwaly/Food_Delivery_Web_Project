@@ -1,12 +1,12 @@
-import {assets} from '../../assets/assets'
+import { assets } from "../../assets/assets";
 
 const Navbar = () => {
   return (
-    <div className='flex flex justify-between items-center p-2 max-h-1/8 z[20]'>
-      <img src={assets.logo} className='w-18 max-h-12' />
-      <img src={assets.profile_image} className='w-10 max-h-14'/>
+    <div className="flex flex justify-between items-center p-2 max-h-1/8 z[20] w-[90%] m-[auto]">
+      <img src={assets.logo} className="w-[150px] max-h-[80px]" />
+      <img src={assets.profile_image} className="w-[45px] max-h-[45px]" />
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

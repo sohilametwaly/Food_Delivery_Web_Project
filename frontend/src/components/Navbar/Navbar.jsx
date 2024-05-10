@@ -36,14 +36,14 @@ const Navbar = () => {
       </ul>
       <div className="flex justify-between w-[20%] items-center hover:cursor-pointer gap-5">
         <img src={assets.search_icon} alt="" className="max-h-[20px]" />
-        <div className="relative">
+        <Link className="relative" to="/cart">
           <img src={assets.basket_icon} alt="" className="max-h-[25px]" />
           <div className="bg-[#ff6347] rounded-[5px] h-[10px] w-[10px] z-[20] absolute right-[-7px] top-[-5px]"></div>
-        </div>
+        </Link>
 
-        <button className="text-[#49557e] hover:bg-[#fff4f2] border-2 rounded-xl p-[4px]  font-custom transition-[0.3s] w-[150px]">
+        <Link className="text-[#49557e] hover:bg-[#fff4f2] border-2 rounded-xl p-[4px]  font-custom transition-[0.3s] w-[150px]">
           Sign In
-        </button>
+        </Link>
       </div>
     </div>
   );

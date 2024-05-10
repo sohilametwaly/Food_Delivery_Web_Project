@@ -3,7 +3,11 @@ import plugin from 'tailwindcss/plugin'
 export default {
   content: ["./index.html","./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        custom: ['Outfit', 'sans-serif'], // Use 'Outfit' as the font family name
+      },
+    },
   },
   plugins: [
     plugin(function({ addVariant }) {
