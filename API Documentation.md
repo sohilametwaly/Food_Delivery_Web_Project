@@ -10,7 +10,6 @@ registers a new user to the system
 
 ### Response
 Returns a JSON object with the following properties
-res.json({success:true,token})
 - `success`: returns true if user was created successfully.
 - `token`: Creates the JWT Token for the newly created user to validate the user's identity when sending requests to the server. Formed by signing the user's ID using the JWT Secret on the server (default secret is "random#secret").
 
@@ -19,7 +18,7 @@ res.json({success:true,token})
 ```json
 {
 	"name" : "basmaa",
-	"email" : "basma@hotmail.me",
+	"email" : "basma@talaat.me",
 	"password": "12345678"
 }
 ```
@@ -49,7 +48,6 @@ logs in an existing user to their account.
 
 ### Response
 Returns a JSON object with the following properties
-res.json({success:true,token})
 - `success`: returns `true` if user was created successfully.
 - `token`: Creates the JWT Token for the logged in user. Formed by signing the user's ID using the JWT Secret on the server (default secret is "random#secret").
 
@@ -121,7 +119,6 @@ Returns a JSON object with the following properties
 - `{"success" : "false" , "message":"Error"}`: an unexpected error occurred on the server.
 
 <br><br>
-
 ## `GET /api/food/list`
 lists all food items.
 ### Parameters
@@ -181,7 +178,7 @@ GET /api/food/list
 ### Errors:
 - `{"success" : "false" , "message":"Error"}`: an unexpected error occurred on the server.
 
-
+<br><br>
 ## `POST /api/food/delete`
 deletes food item from the menu.
 ### Parameters
@@ -198,7 +195,6 @@ Returns a JSON object with the following properties
 {
   "name": "ca0e58b427d24b128b8d76b8"
 }
-
 ```
 
 ### Response
@@ -227,20 +223,43 @@ places an order for the logged in user.
 - `address`: Delivery address for the order.
 
 ### Response
-Returns a JSON object with the following properties
+Returns a JSON object with the following properties:
 - `success`: returns `true` when order is placed successfully.
-- `message`: returns "Food Added" when food is added.
+- `message`: returns "Order created successfully" when order is placed successfully.
 
 ### **Example**
 ### Request
 ```json
 {
-  "name": "Mr. Salta3 Burger",
-  "description": "A mouthwatering burger with juicy beef patty, fresh lettuce, ripe tomatoes, and melted cheese, sandwiched between soft sesame seed buns.",
-  "price": 9.99,
-  "category": "Burgers",
-  "image": "https://example.com/delicious-burger-image.jpg"
+  "userId": "66Jeb3eea8cbf7a6d3b9d43d",
+  "address": {
+    "firstName": "Basma",
+    "lastName": "Talaat",
+    "email": "basma.mohamed@example.com",
+    "street": "456 Elm Street",
+    "city": "Gaza",
+    "state": "Gaza Strip",
+    "zipcode": "12345",
+    "country": "Palestine",
+    "phone": "+970123456789"
+  },
+  "items": [
+    {
+      "_id": "1",
+      "name": "Chicken Shwarma Pizza",
+      "image": "/src/assets/best-pizza.jpg",
+      "price": 12,
+      "description": "Fresh salad with cucumbers, tomatoes, onions, olives, and feta cheese.",
+      "category": "pizza",
+      "quantity": 1
+    }
+  ],
+  "amount": 12,
+  "status": "Order Placed",
+  "date": "2024-05-11T09:00:00.000Z",
+  "payment": true
 }
+
 
 ```
 
@@ -248,36 +267,156 @@ Returns a JSON object with the following properties
 ```json
 {
 	"success": true,
-	"message" : "Food Added"
+	"message" : "Order created successfully"
 }
 ```
 
 ### Errors:
 - `{"success" : "false" , "message":"Error"}`: an unexpected error occurred on the server.
 
-
-
-
-
+<br><br>
 ## `GET /api/order/list`
-lists the orders of the logged-in user.
-
+lists all orders submitted on the system.
 ### Parameters
-- `email` (required): the email for the user's account. 
-- `password` (required): the password which was created for that account.
+- user's token (required): to check if he's authorized to perform this action (admins only).
 
 ### Response
 Returns a JSON object with the following properties
-res.json({success:true,token})
-- `success`: returns `true` if user was created successfully.
-- `token`: Creates the JWT Token for the logged in user. Formed by signing the user's ID using the JWT Secret on the server (default secret is "random#secret").
+- `success`: returns `true` if user was authorized and request was processed correctly.
+- `orders`: An array of all order objects representing users purchases. Each order includes:
+	- `userId`: Unique identifier of the user placing the order.
+	- `items`: An array of food items in the order, each with properties such as `_id`, `name`, `image`, `price`, `description`, `category`, and `quantity`.
+	- `amount`: Total cost of the order.
+	- `address`: Shipping address details including `firstName`, `lastName`, `email`, `street`, `city`, `state`, `zipcode`, `country`, and `phone`.
+	- `status`: Current status of the order, defaulting to "Food Processing".
+	- `date`: Date and time of order placement, defaulting to the current date and time.
+	- `payment`: Payment status, defaulting to `false`.
 
 ### Example
 ### Request
+```http
+GET /api/order/list
+```
+
+### Response
 ```json
 {
-	"email" : "sohaila@gmail.me",
-	"password": "bestC0d3r"
+	{
+  "orders": [
+    {
+      "userId": "66Jeb3eea8cbf7a6d3b9d43d",
+      "items": [
+        {
+          "_id": "1",
+          "name": "Chicken Shwarma Pizza",
+          "image": "/src/assets/best-pizza.jpg",
+          "price": 12,
+          "description": "Fresh salad with cucumbers, tomatoes, onions, olives, and feta cheese.",
+          "category": "pizza",
+          "quantity": 1
+        }
+      ],
+      "amount": 12,
+      "address": {
+        "firstName": "Basma",
+        "lastName": "Talaat",
+        "email": "basma.mohamed@example.com",
+        "street": "456 Elm Street",
+        "city": "Gaza",
+        "state": "Gaza Strip",
+        "zipcode": "12345",
+        "country": "Palestine",
+        "phone": "+970123456789"
+      },
+      "status": "Order Placed",
+      "date": "2024-05-11T09:00:00.000Z",
+      "payment": true
+    },
+    {
+      "userId": "66Jeb3eea8cbf7a6d3b9d43d",
+      "items": [
+        {
+          "_id": "2",
+          "name": "Margherita Pizza",
+          "image": "/src/assets/margherita-pizza.jpg",
+          "price": 14,
+          "description": "Classic pizza with tomato sauce, mozzarella cheese, and fresh basil.",
+          "category": "pizza",
+          "quantity": 3
+        }
+      ],
+      "amount": 42,
+      "address": {
+        "firstName": "Basma",
+        "lastName": "Talaat",
+        "email": "basma.mohamed@example.com",
+        "street": "456 Elm Street",
+        "city": "Gaza",
+        "state": "Gaza Strip",
+        "zipcode": "12345",
+        "country": "Palestine",
+        "phone": "+970123456789"
+      },
+      "status": "Preparing",
+      "date": "2024-05-11T10:30:00.000Z",
+      "payment": true
+    },
+    {
+      "userId": "66Jeb3eea8cbf7a6d3b9d43d",
+      "items": [
+        {
+          "_id": "5",
+          "name": "Chocolate Cake",
+          "image": "/src/assets/chocolate-cake.jpg",
+          "price": 18,
+          "description": "Decadent chocolate cake with chocolate frosting and sprinkles.",
+          "category": "dessert",
+          "quantity": 2
+        }
+      ],
+      "amount": 36,
+      "address": {
+        "firstName": "Basma",
+        "lastName": "Talaat",
+        "email": "basma.mohamed@example.com",
+        "street": "456 Elm Street",
+        "city": "Gaza",
+        "state": "Gaza Strip",
+        "zipcode": "12345",
+        "country": "Palestine",
+        "phone": "+970123456789"
+      },
+      "status": "Out for Delivery",
+      "date": "2024-05-11T12:00:00.000Z",
+      "payment": true
+    }
+  ]
+}
+
+}
+```
+
+### Errors:
+- `{"success" : "false" , "message":"Error"}`: indicates every other unusual errors.
+
+<br><br>
+## `POST /api/order/update`
+updates the status of an order.
+### Parameters
+- `orderid` (required): The id of the order to be updated.
+- `status`(required): updated status of order. 
+
+### Response
+Returns a JSON object with the following properties
+- `success`: returns `true` when status is updated successfully.
+- `message`: returns "Status Updated" when status is updated successfully.
+
+### **Example**
+### Request
+```json
+{
+	"orderid" : "660be5d636ac75aøcb1a6e8c",
+	"status": "Out for delivery"
 }
 ```
 
@@ -285,19 +424,138 @@ res.json({success:true,token})
 ```json
 {
 	"success": true,
-	"token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+	"message" : "Order updated successfully"
 }
 ```
 
 ### Errors:
-- `{"success" : "false" , "message":"User doesn't exist"}`: when there's no account with the provided email registered on the system.
-- `{"success" : "false" , "message":"Invalid credentials"}`: when the password is incorrect.
-- `{"success" : "false" , "message":"Error"}`: indicates every other unusual errors.
+- `{"success" : "false" , "message":"Error"}`: food's ID doesn't exist or an unexpected error occurred on the server.
 
-## `POST /api/order/update`
-updates an order for the logged-in user.
-
+<br><br>
 ## `POST /api/order/userorders`
 lists the orders of the logged-in user.
-## 
+### Parameters
+- `id` (required): The id of the user requesting to see their orders.
+- user's token in the headers.
+### Response
+Returns a JSON object with the following properties
+- `success`: returns `true` when food is added successfully.
+- `data`: An array of orders objects. each with the following properties:
+	- `userId`: Unique identifier of the user placing the order.
+	- `items`: An array of food items in the order, each with properties such as `_id`, `name`, `image`, `price`, `description`, `category`, and `quantity`.
+	- `amount`: Total cost of the order.
+	- `address`: Shipping address details including `firstName`, `lastName`, `email`, `street`, `city`, `state`, `zipcode`, `country`, and `phone`.
+	- `status`: Current status of the order, defaulting to "Food Processing".
+	- `date`: Date and time of order placement, defaulting to the current date and time.
+	- `payment`: Payment status, defaulting to `false`.
+
+### **Example**
+### Request
+```json
+{
+	"userId" : "66Jeb3eea8cbf7a6d3b9d43d"
+}
+```
+
+### Response
+```json
+{
+	{
+  "orders": [
+    {
+      "userId": "66Jeb3eea8cbf7a6d3b9d43d",
+      "items": [
+        {
+          "_id": "1",
+          "name": "Greek Salad",
+          "image": "/src/assets/greek-salad.jpg",
+          "price": 12,
+          "description": "Fresh salad with cucumbers, tomatoes, onions, olives, and feta cheese.",
+          "category": "salad",
+          "quantity": 1
+        }
+      ],
+      "amount": 12,
+      "address": {
+        "firstName": "Basant",
+        "lastName": "Mohamed",
+        "email": "basant.mohamed@example.com",
+        "street": "456 Elm Street",
+        "city": "Gaza",
+        "state": "Gaza Strip",
+        "zipcode": "12345",
+        "country": "Palestine",
+        "phone": "+970123456789"
+      },
+      "status": "Order Placed",
+      "date": "2024-05-11T09:00:00.000Z",
+      "payment": true
+    },
+    {
+      "userId": "66Jeb3eea8cbf7a6d3b9d43d",
+      "items": [
+        {
+          "_id": "2",
+          "name": "Margherita Pizza",
+          "image": "/src/assets/margherita-pizza.jpg",
+          "price": 14,
+          "description": "Classic pizza with tomato sauce, mozzarella cheese, and fresh basil.",
+          "category": "pizza",
+          "quantity": 3
+        }
+      ],
+      "amount": 42,
+      "address": {
+        "firstName": "Basant",
+        "lastName": "Mohamed",
+        "email": "basant.mohamed@example.com",
+        "street": "456 Elm Street",
+        "city": "Gaza",
+        "state": "Gaza Strip",
+        "zipcode": "12345",
+        "country": "Palestine",
+        "phone": "+970123456789"
+      },
+      "status": "Preparing",
+      "date": "2024-05-11T10:30:00.000Z",
+      "payment": true
+    },
+    {
+      "userId": "66Jeb3eea8cbf7a6d3b9d43d",
+      "items": [
+        {
+          "_id": "3",
+          "name": "Chocolate Cake",
+          "image": "/src/assets/chocolate-cake.jpg",
+          "price": 18,
+          "description": "Decadent chocolate cake with chocolate frosting and sprinkles.",
+          "category": "dessert",
+          "quantity": 2
+        }
+      ],
+      "amount": 36,
+      "address": {
+        "firstName": "Basant",
+        "lastName": "Mohamed",
+        "email": "basant.mohamed@example.com",
+        "street": "456 Elm Street",
+        "city": "Gaza",
+        "state": "Gaza Strip",
+        "zipcode": "12345",
+        "country": "Palestine",
+        "phone": "+970123456789"
+      },
+      "status": "Out for Delivery",
+      "date": "2024-05-11T12:00:00.000Z",
+      "payment": true
+    }
+  ]
+}
+
+}
+```
+
+### Errors:
+- `{"success" : "false" , "message":"Error"}`: food's ID doesn't exist or an unexpected error occurred on the server.
+
 
