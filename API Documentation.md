@@ -38,7 +38,7 @@ res.json({success:true,token})
 - `{"success" : "false" , "message":"Please enter a strong password"}`: when the password's length is less than 8 characters.
 - `{"success" : "false" , "message":"Error"}`: an unexpected error occurred on the server.
 
-
+<br><br>
 
 ## `POST /api/user/login`
 logs in an existing user to their account.
@@ -120,6 +120,7 @@ Returns a JSON object with the following properties
 ### Errors:
 - `{"success" : "false" , "message":"Error"}`: an unexpected error occurred on the server.
 
+<br><br>
 
 ## `GET /api/food/list`
 lists all food items.
