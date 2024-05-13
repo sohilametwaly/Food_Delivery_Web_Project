@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { menu_list } from "../../assets/assets";
+import { menu_list } from "../../assets/frontAssets/assets";
 
 const ExploreMenu = ({ category, setCategory }) => {
+  const [clickedImage, setClickedImage] = useState();
   const onClickHandler = (index) => {
     setClickedImage(index);
   };

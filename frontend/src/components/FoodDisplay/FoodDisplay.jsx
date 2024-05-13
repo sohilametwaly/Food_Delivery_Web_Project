@@ -1,10 +1,9 @@
 import { useContext } from "react";
 import { StoreContext } from "../../context/StoreContext";
 import FoodItem from "../FoodItem/FoodItem";
+import { food_list } from "../../assets/frontAssets/assets";
 
 const FoodDisplay = ({ category }) => {
-  const { food_list } = useContext(StoreContext);
-
   return (
     <div className="font-custom mb-10">
       <h2 className="text-[35px] pb-4">Top dishes near you</h2>
