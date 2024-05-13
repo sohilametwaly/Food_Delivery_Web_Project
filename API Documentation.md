@@ -16,6 +16,8 @@ Returns a JSON object with the following properties
 ### **Example**
 ### Request
 ```json
+POST /api/user/register
+
 {
 	"name" : "basmaa",
 	"email" : "basma@talaat.me",
@@ -54,6 +56,8 @@ Returns a JSON object with the following properties
 ### **Example**
 ### Request
 ```json
+POST /api/user/login
+
 {
 	"email" : "sohaila@gmail.me",
 	"password": "bestC0d3r"
@@ -97,6 +101,7 @@ Returns a JSON object with the following properties
 ### **Example**
 ### Request
 ```json
+POST /api/food/add
 {
   "name": "Mr. Salta3 Burger",
   "description": "A mouthwatering burger with juicy beef patty, fresh lettuce, ripe tomatoes, and melted cheese, sandwiched between soft sesame seed buns.",
@@ -127,6 +132,7 @@ lists all food items.
 - `price` (required): The cost of the food item.
 - `category` (required): The food category to which the item belongs.
 - `image` (required): URL or path to an image of the food item.
+
 
 ### Response
 Returns a JSON object with the following properties
@@ -192,6 +198,8 @@ Returns a JSON object with the following properties
 ### **Example**
 ### Request
 ```json
+POST /api/food/delete
+
 {
   "name": "ca0e58b427d24b128b8d76b8"
 }
@@ -230,6 +238,8 @@ Returns a JSON object with the following properties:
 ### **Example**
 ### Request
 ```json
+POST /api/order/place
+
 {
   "userId": "66Jeb3eea8cbf7a6d3b9d43d",
   "address": {
@@ -414,6 +424,8 @@ Returns a JSON object with the following properties
 ### **Example**
 ### Request
 ```json
+POST /api/order/update
+
 {
 	"orderid" : "660be5d636ac75aøcb1a6e8c",
 	"status": "Out for delivery"
@@ -452,6 +464,8 @@ Returns a JSON object with the following properties
 ### **Example**
 ### Request
 ```json
+POST /api/order/userorders
+
 {
 	"userId" : "66Jeb3eea8cbf7a6d3b9d43d"
 }
