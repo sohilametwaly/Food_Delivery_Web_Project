@@ -36,5 +36,4 @@ To run this project locally, follow these steps:
 - Express.js
 - MongoDB
 - Mongoose
-- Passport.js
 - JSON Web Tokens (JWT)
