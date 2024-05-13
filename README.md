@@ -16,12 +16,10 @@ To run this project locally, follow these steps:
 ### User Roles:
 - **Customer:** Can browse restaurants, view menus, place orders, and track deliveries.
 - **Restaurant Owner:** Can manage menus, update item availability, and track orders for their restaurant.
-- **Delivery Person:** Can view assigned orders, update order status, and communicate with customers.
 
 ### Features:
 - **Authentication:** Register, login, and manage user accounts securely.
 - **Order Management:** Place orders, track order status, and receive notifications.
-- **Payment Integration:** Securely make payments using credit/debit cards, digital wallets, etc.
 - **Admin Dashboard:** Access administrative features for managing users, restaurants, and orders.
 
 ## Technologies Used:
